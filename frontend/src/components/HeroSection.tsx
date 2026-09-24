@@ -11,9 +11,11 @@ export const HeroSection: React.FC = () => {
         </span>
       </h1>
 
-      <p className="text-white/95 text-sm sm:text-base max-w-xl font-medium leading-relaxed drop-shadow-md pt-1">
-        Track, compute, and curb your weekly footprint using verified IPCC emission factors. Rebalance emissions seamlessly with rollover accounting.
-      </p>
+      <div className="inline-block bg-white/15 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/30 shadow-[0_0_25px_rgba(255,255,255,0.25)] mt-1 max-w-xl">
+        <p className="text-white text-sm sm:text-base font-semibold leading-relaxed drop-shadow-[0_2px_8px_rgba(255,255,255,0.5)]">
+          Track, compute, and curb your weekly footprint using verified IPCC emission factors. Rebalance emissions seamlessly with rollover accounting.
+        </p>
+      </div>
     </div>
   );
 };
