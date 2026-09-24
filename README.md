@@ -63,11 +63,23 @@ To ensure 100% compliance with the hackathon's "no auth" rule:
 
 ## 🛠️ Tech Stack
 
+### Backend & AI
 - **Framework:** FastAPI (Python 3.11+)
+- **AI & LLM Integration:** LangChain (`langchain-mistralai`, `langchain-core`) & Mistral AI
 - **Database ORM:** SQLAlchemy 2.0
 - **Database:** PostgreSQL (Supabase / Neon) with seamless SQLite local fallback
 - **Validation:** Pydantic v2
 - **Testing:** Pytest & HTTPX
+
+### Frontend
+- **Framework:** React 19
+- **Build Tool & Dev Server:** Vite 8
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4 & Custom Design Tokens
+- **Icons:** Lucide React
+- **Markdown Rendering:** Marked (streaming token support)
+- **API Client:** Axios & Native Streams (for Server-Sent Events)
+- **Linter:** Oxlint
 
 ---
 
@@ -90,6 +102,8 @@ To connect to your **Supabase PostgreSQL database**, update `DATABASE_URL`:
 ```env
 DATABASE_URL=postgresql://postgres.[PROJECT_REF]:[YOUR-PASSWORD]@aws-0-ap-southeast-2.pooler.supabase.com:5432/postgres
 PORT=8000
+# Optional: Set your Mistral API key to enable Leafy AI chatbot
+MISTRAL_API_KEY=your_mistral_api_key_here
 ```
 *(If left blank, the app will automatically fall back to a local SQLite database `planetpulse.db`)*
 
@@ -111,10 +125,44 @@ The interactive Swagger documentation will be available at:
 
 ---
 
+## 💻 Running the Frontend Locally
+
+### 1. Install Node Dependencies
+```bash
+cd frontend
+npm install
+```
+
+### 2. Configure Environment (Optional)
+Copy `.env.example` to `.env`:
+```bash
+cp .env.example .env
+```
+- **Local Development:** Leave `VITE_API_URL` empty to use Vite's built-in proxy (requests to `/api` proxy automatically to `http://localhost:8000`).
+- **Production Deployment:** Set `VITE_API_URL` to your hosted backend URL (e.g. `https://your-backend.onrender.com`).
+
+### 3. Start Development Server
+```bash
+npm run dev
+```
+
+Open your browser at:
+👉 **`http://localhost:5173`**
+
+### 4. Build for Production
+```bash
+npm run build
+```
+Production-ready bundles will be created in the `dist/` folder.
+
+---
+
 ## 🧪 Running Automated Tests
 
-Run the test suite covering all 5 features, decision points, and zero-auth compliance:
+Run the test suite covering all 6 features, decision points, and zero-auth compliance:
 ```bash
+cd backend
 pytest tests -v
 ```
-All 9 test suites validate emissions factors, outlier confirmation, budget pacing, rollover compensation, and fallback handling.
+All 15 test suites validate emissions factors, outlier confirmation, budget pacing, rollover compensation, Leafy AI chatbot endpoints (streaming & non-streaming), and fallback handling.
+
