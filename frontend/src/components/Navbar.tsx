@@ -118,7 +118,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-black border border-black cursor-pointer transition-all duration-300 ease-in-out shadow-[0_0_0_0_black] hover:-translate-y-1 hover:-translate-x-0.5 hover:shadow-[2px_5px_0_0_black] active:translate-y-0.5 active:translate-x-0.25 active:shadow-[0_0_0_0_black]"
               title="Click to review threshold rebalancing"
             >
-              <span className="w-2 h-2 rounded-full bg-[#8C6824]"></span>
               <span className="font-semibold tracking-tight text-black">
                 Target Reached (+{overageKg.toFixed(1)} kg)
               </span>
@@ -128,7 +127,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={onOpenThresholdModal}
               className="flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-black border border-black cursor-pointer transition-all duration-300 ease-in-out shadow-[0_0_0_0_black] hover:-translate-y-1 hover:-translate-x-0.5 hover:shadow-[2px_5px_0_0_black] active:translate-y-0.5 active:translate-x-0.25 active:shadow-[0_0_0_0_black]"
             >
-              <span className="w-2 h-2 rounded-full bg-[#74C043]"></span>
               <span className="font-semibold tracking-tight text-black">
                 Budget Active
               </span>
