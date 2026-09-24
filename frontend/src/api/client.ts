@@ -5,7 +5,10 @@ import type {
   DashboardResponse,
   WeeklyTargetResponse,
   OutlierWarningResponse,
+  ChatRequest,
+  ChatResponse,
 } from '../types';
+
 
 export type IdentityMode = 'ephemeral' | 'persistent';
 
@@ -122,3 +125,11 @@ export const applyRollover = async (
   });
   return res.data;
 };
+
+export const sendChatMessage = async (
+  payload: ChatRequest
+): Promise<ChatResponse> => {
+  const res = await api.post<ChatResponse>('/chat', payload);
+  return res.data;
+};
+

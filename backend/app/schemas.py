@@ -129,3 +129,19 @@ class RolloverActionRequest(BaseModel):
 class DeviceResponse(BaseModel):
     device_id: str
     message: str
+
+
+class ChatMessage(BaseModel):
+    role: Literal["user", "assistant", "system"] = Field(..., description="Role of the message author")
+    content: str = Field(..., description="Content of the message")
+
+
+class ChatRequest(BaseModel):
+    messages: List[ChatMessage] = Field(..., min_length=1, description="List of chat messages in conversation history")
+    include_progress: bool = Field(default=True, description="Whether to include user's live weekly telemetry in Leafy's context")
+
+
+class ChatResponse(BaseModel):
+    reply: str
+    model: str = "mistral-medium-latest"
+

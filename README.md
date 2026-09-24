@@ -2,7 +2,7 @@
 
 > **CODE2CAREER AI Hackathon — Track 2: Real-World AI Products (Climate Tech Brief)**
 
-[![Backend Tests](https://img.shields.io/badge/Backend%20Tests-9%2F9%20Passing-brightgreen)]()
+[![Backend Tests](https://img.shields.io/badge/Backend%20Tests-13%2F13%20Passing-brightgreen)]()
 [![Zero-Auth](https://img.shields.io/badge/Authentication-Zero--Auth%20Compliant-blue)]()
 [![Standard API](https://img.shields.io/badge/Standard%20API-FastAPI%20Swagger-purple)]()
 
@@ -28,8 +28,10 @@ PlanetPulse turns daily choices (transport, energy, meals) into an intuitive, ac
 | **3** | **Dashboard** | `GET /api/dashboard` | Overall emissions, category breakdown (totals, units, percentages), and mid-week pacing. |
 | **4** | **Weekly Target & Nudge** | `GET /api/target`<br>`PUT /api/target`<br>`POST /api/target/rollover` | Set a weekly CO₂ budget, monitor progress %, receive constructive overage alerts, and manage carbon debt rollover. |
 | **5** | **History & Filter** | `GET /api/activities` | Full audit log filterable by `type`, `from_date`, `to_date`, and outlier flag status. |
+| **6** | **Leafy AI Chatbot** | `POST /api/chat` | AI climate companion powered by LangChain & Mistral AI with live weekly carbon telemetry sync. |
 
 ---
+
 
 ## ⚖️ Hackathon Decision Points
 

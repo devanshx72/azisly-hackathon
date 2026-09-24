@@ -104,3 +104,21 @@ export const EMISSION_FACTORS: Record<string, FactorMeta> = {
   veg_meal: { rate: 0.50, unit: 'meal', label: 'Veg meal', category: 'Food', iconName: 'Salad' },
   non_veg_meal: { rate: 2.00, unit: 'meal', label: 'Non-veg meal', category: 'Food', iconName: 'Beef' },
 };
+
+export interface ChatMessage {
+  id?: string;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  timestamp?: string;
+}
+
+export interface ChatRequest {
+  messages: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>;
+  include_progress?: boolean;
+}
+
+export interface ChatResponse {
+  reply: string;
+  model: string;
+}
+
