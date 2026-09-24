@@ -29,6 +29,8 @@ import { OutlierConfirmModal } from './components/OutlierConfirmModal';
 import { TargetAdjustModal } from './components/TargetAdjustModal';
 import { RestoreSessionModal } from './components/RestoreSessionModal';
 import { Toast } from './components/Toast';
+import { ChatBot } from './components/ChatBot';
+
 
 export function App() {
   const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
@@ -332,8 +334,11 @@ export function App() {
         onRestore={handleRestoreIdentity}
         onClose={() => setShowRestoreModal(false)}
       />
+
+      <ChatBot currentWeek={currentWeek} />
     </div>
   );
 }
+
 
 export default App;

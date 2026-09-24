@@ -20,3 +20,6 @@ if not DATABASE_URL:
 
 PORT = int(os.getenv("PORT", "8000"))
 CORS_ORIGINS = [origin.strip() for origin in os.getenv("CORS_ORIGINS", "*").split(",") if origin.strip()]
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", "").strip()
+MISTRAL_MODEL = os.getenv("MISTRAL_MODEL", "open-mistral-7b").strip()
+

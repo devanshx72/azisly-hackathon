@@ -3,7 +3,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .config import CORS_ORIGINS
 from .database import init_db
-from .routers import activities, dashboard, target, device
+from .routers import activities, dashboard, target, device, chat
+
 
 OPENAPI_DESCRIPTION = """
 # 🌍 PlanetPulse API — Carbon Footprint Tracker
@@ -60,6 +61,8 @@ app.include_router(activities.router)
 app.include_router(dashboard.router)
 app.include_router(target.router)
 app.include_router(device.router)
+app.include_router(chat.router)
+
 
 
 @app.get("/", tags=["Health"])
