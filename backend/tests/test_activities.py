@@ -98,3 +98,23 @@ def test_history_and_filtering(client):
     # Invalid type filter
     res_invalid = client.get("/api/activities?type=invalid_type", headers=headers)
     assert res_invalid.status_code == 422
+
+
+def test_delete_activity(client):
+    headers = {"X-Device-Id": "test-device-delete"}
+    res = client.post("/api/activities", json={"activity_type": "car", "quantity": 10.0}, headers=headers)
+    assert res.status_code == 201
+    act_id = res.json()["id"]
+
+    # Delete existing
+    del_res = client.delete(f"/api/activities/{act_id}", headers=headers)
+    assert del_res.status_code == 204
+
+    # Verify deleted from history
+    hist_res = client.get("/api/activities", headers=headers)
+    assert len(hist_res.json()) == 0
+
+    # Delete non-existent
+    del_res2 = client.delete(f"/api/activities/{act_id}", headers=headers)
+    assert del_res2.status_code == 404
+

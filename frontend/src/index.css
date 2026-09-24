@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-agroneBg: #EAE6DA;
+  --color-agroneCream: #F5F2EB;
+  --color-agroneCard: #F5F3EC;
+  --color-forestDark: #0D2117;
+  --color-forestGreen: #132B20;
+  --color-limeGreen: #74C043;
+  --color-limeApple: #72BF44;
+  --color-limeLight: #85D450;
+  --color-brickRed: #B83220;
+  --color-warmAmber: #8C6824;
+  --color-sageBg: #E3EDE5;
+  --color-sageBorder: #C8D9CB;
+  --color-mossAccent: #2F4F2F;
+  --color-softLinen: #F0ECE1;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #0d2117;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(245, 242, 235, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(19, 43, 32, 0.35);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(19, 43, 32, 0.6);
+}
+
+.agrone-card-shadow {
+  box-shadow: 0 20px 40px -15px rgba(13, 33, 23, 0.28), 0 4px 14px -2px rgba(0, 0, 0, 0.08);
+}
+.agrone-pill-shadow {
+  box-shadow: 0 8px 24px -4px rgba(13, 33, 23, 0.22);
+}
+.agrone-input {
+  background-color: #ECE8DD;
+  border: 1px solid rgba(19, 43, 32, 0.12);
+  transition: all 0.2s ease;
+}
+.agrone-input:focus {
+  background-color: #FFFFFF;
+  border-color: #132B20;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(116, 192, 67, 0.25);
+}
+.agrone-modal-backdrop {
+  backdrop-filter: blur(10px);
+  background-color: rgba(13, 33, 23, 0.55);
+}

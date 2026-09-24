@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status, Response
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
@@ -142,3 +142,26 @@ def get_activities_history(
         )
         for rec in records
     ]
+
+
+@router.delete(
+    "/{activity_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete a logged activity entry",
+)
+def delete_activity(
+    activity_id: str,
+    device_id: str = Depends(get_device_id),
+    db: Session = Depends(get_db),
+):
+    """
+    Deletes an activity entry by ID for the current device_id.
+    """
+    success = activity_repo.delete_activity(db=db, device_id=device_id, activity_id=activity_id)
+    if not success:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Activity entry not found or does not belong to current device ID.",
+        )
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
+

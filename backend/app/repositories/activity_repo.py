@@ -135,3 +135,17 @@ def get_week_co2_totals(
         "flagged": round(totals["flagged"], 2),
         "total": round(totals["unflagged"] + totals["flagged"], 2),
     }
+
+
+def delete_activity(db: Session, device_id: str, activity_id: str) -> bool:
+    """
+    Deletes an activity record for a given device_id and activity_id.
+    Returns True if deleted, False if not found.
+    """
+    activity = db.query(Activity).filter(Activity.id == activity_id, Activity.device_id == device_id).first()
+    if not activity:
+        return False
+    db.delete(activity)
+    db.commit()
+    return True
+
