@@ -44,6 +44,11 @@ export const switchToEphemeralMode = (): void => {
   localStorage.removeItem('X-Device-Id');
 };
 
+export const logoutSession = (): void => {
+  localStorage.removeItem('X-Device-Id');
+  sessionStorage.removeItem('X-Device-Id-Ephemeral');
+};
+
 const getBaseURL = (): string => {
   const envUrl = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
   if (!envUrl) return '/api';

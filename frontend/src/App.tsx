@@ -92,6 +92,15 @@ export function App() {
     await loadData();
   };
 
+  // Logout session handler
+  const handleLogoutSession = async () => {
+    setToast({
+      message: 'Logged Out',
+      subtext: 'Session ended. Switched to default session.',
+    });
+    await loadData();
+  };
+
   // Log activity handler with DP2 409 Conflict handling
   const handleLogActivity = async (
     type: string,
@@ -242,6 +251,7 @@ export function App() {
         onOpenThresholdModal={() => setShowThresholdModal(true)}
         onOpenRestoreModal={() => setShowRestoreModal(true)}
         onRefreshData={loadData}
+        onLogout={handleLogoutSession}
         isOverTarget={currentWeek.is_over_target}
         overageKg={currentWeek.overage_kg}
       />
@@ -257,12 +267,24 @@ export function App() {
       {/* Toast Banner */}
       <Toast toast={toast} onClose={() => setToast(null)} />
 
-      {/* Main Grid Viewport */}
-      <main className="w-full flex-1 grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6 items-stretch my-auto">
-        {/* LEFT COLUMN: Hero text & Telemetry Card */}
-        <div className="xl:col-span-6 flex flex-col justify-between space-y-4 lg:space-y-5">
+      {/* Main 2x2 Grid Viewport */}
+      <main className="w-full flex-1 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 items-start my-auto">
+        {/* Top Left: Hero text */}
+        <div className="flex flex-col justify-between">
           <HeroSection />
+        </div>
 
+        {/* Top Right: Target Card (Weekly Budget & Target) */}
+        <div className="flex flex-col">
+          <TargetCard
+            currentWeek={currentWeek}
+            onOpenThresholdModal={() => setShowThresholdModal(true)}
+            onOpenTargetAdjustModal={() => setShowTargetAdjustModal(true)}
+          />
+        </div>
+
+        {/* Bottom Left: Telemetry Card (Weekly Telemetry & Quick Logger) */}
+        <div className="flex flex-col">
           <TelemetryCard
             weeklyTotalCo2={currentWeek.week_co2_kg || totalCo2}
             targetKg={currentWeek.target_kg || 30.0}
@@ -274,14 +296,8 @@ export function App() {
           />
         </div>
 
-        {/* RIGHT COLUMN: Target Card & Audit Table */}
-        <div className="xl:col-span-6 flex flex-col justify-between space-y-4 lg:space-y-5">
-          <TargetCard
-            currentWeek={currentWeek}
-            onOpenThresholdModal={() => setShowThresholdModal(true)}
-            onOpenTargetAdjustModal={() => setShowTargetAdjustModal(true)}
-          />
-
+        {/* Bottom Right: Audit Table (Telemetry Log & Audit) */}
+        <div className="flex flex-col">
           <AuditTable
             activities={activities}
             searchQuery={searchQuery}

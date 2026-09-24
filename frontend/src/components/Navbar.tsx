@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Sprout, RotateCcw, KeyRound, Copy, Check } from 'lucide-react';
-import { getDeviceId, switchToEphemeralMode } from '../api/client';
+import { Sprout, RotateCcw, KeyRound, Copy, Check, LogOut } from 'lucide-react';
+import { getDeviceId, switchToEphemeralMode, logoutSession } from '../api/client';
 
 interface NavbarProps {
   onOpenThresholdModal: () => void;
   onOpenRestoreModal: () => void;
   onRefreshData: () => void;
+  onLogout?: () => void;
   isOverTarget: boolean;
   overageKg: number;
 }
@@ -14,6 +15,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenThresholdModal,
   onOpenRestoreModal,
   onRefreshData,
+  onLogout,
   isOverTarget,
   overageKg,
 }) => {
@@ -29,6 +31,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleResetIdentity = () => {
     switchToEphemeralMode();
     onRefreshData();
+  };
+
+  const handleLogout = () => {
+    logoutSession();
+    if (onLogout) {
+      onLogout();
+    } else {
+      onRefreshData();
+    }
   };
 
   return (
@@ -88,6 +99,16 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             <KeyRound className="w-3.5 h-3.5 text-[#132B20]" />
             <span>Restore Session</span>
+          </button>
+
+          {/* Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-red-50 hover:bg-red-100 border border-red-200/80 text-red-700 transition cursor-pointer shadow-xs"
+            title="Log out of current session"
+          >
+            <LogOut className="w-3.5 h-3.5 text-red-600" />
+            <span>Logout</span>
           </button>
 
           {/* Status Badge */}
