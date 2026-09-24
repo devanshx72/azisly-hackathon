@@ -104,10 +104,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-gradient-to-r from-rose-500/10 to-red-500/15 hover:from-rose-500/20 hover:to-red-500/25 border border-rose-500/30 text-rose-800 shadow-xs hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all duration-200 cursor-pointer"
+            className="flex items-center space-x-1.5 px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-black border border-black cursor-pointer transition-all duration-300 ease-in-out shadow-[0_0_0_0_black] hover:-translate-y-1 hover:-translate-x-0.5 hover:shadow-[2px_5px_0_0_black] active:translate-y-0.5 active:translate-x-0.25 active:shadow-[0_0_0_0_black]"
             title="Log out of current session"
           >
-            <LogOut className="w-3.5 h-3.5 text-rose-600 stroke-[2.2]" />
+            <LogOut className="w-3.5 h-3.5 text-black" />
             <span>Logout</span>
           </button>
 
@@ -115,21 +115,21 @@ export const Navbar: React.FC<NavbarProps> = ({
           {isOverTarget ? (
             <button
               onClick={onOpenThresholdModal}
-              className="flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-extrabold transition-all duration-200 border shadow-md bg-[#EFE9DC] hover:bg-[#E6DEC9] text-[#132B20] border-[#D9D1BF] hover:scale-[1.02] active:scale-95 cursor-pointer"
+              className="flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-black border border-black cursor-pointer transition-all duration-300 ease-in-out shadow-[0_0_0_0_black] hover:-translate-y-1 hover:-translate-x-0.5 hover:shadow-[2px_5px_0_0_black] active:translate-y-0.5 active:translate-x-0.25 active:shadow-[0_0_0_0_black]"
               title="Click to review threshold rebalancing"
             >
               <span className="w-2 h-2 rounded-full bg-[#8C6824]"></span>
-              <span className="font-bold tracking-tight text-[#132B20]">
+              <span className="font-semibold tracking-tight text-black">
                 Target Reached (+{overageKg.toFixed(1)} kg)
               </span>
             </button>
           ) : (
             <button
               onClick={onOpenThresholdModal}
-              className="flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-extrabold transition-all duration-200 border shadow-md bg-gradient-to-r from-[#132B20] to-[#1C3B2E] hover:from-[#1A382A] hover:to-[#254A3B] text-white border-[#74C043]/40 hover:scale-[1.02] active:scale-95 cursor-pointer"
+              className="flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-semibold bg-white text-black border border-black cursor-pointer transition-all duration-300 ease-in-out shadow-[0_0_0_0_black] hover:-translate-y-1 hover:-translate-x-0.5 hover:shadow-[2px_5px_0_0_black] active:translate-y-0.5 active:translate-x-0.25 active:shadow-[0_0_0_0_black]"
             >
-              <span className="w-2 h-2 rounded-full bg-[#85D450] shadow-[0_0_8px_#85D450]"></span>
-              <span className="font-extrabold tracking-tight text-white drop-shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-[#74C043]"></span>
+              <span className="font-semibold tracking-tight text-black">
                 Budget Active
               </span>
             </button>
