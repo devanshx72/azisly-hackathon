@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Trash2, ShieldCheck } from 'lucide-react';
+import { Trash2, ShieldCheck, Search } from 'lucide-react';
 import type { Activity } from '../types';
 import { EMISSION_FACTORS } from '../types';
 import { ActivityIcon } from './ActivityIcon';
@@ -7,12 +7,14 @@ import { ActivityIcon } from './ActivityIcon';
 interface AuditTableProps {
   activities: Activity[];
   searchQuery: string;
+  setSearchQuery: (q: string) => void;
   onDeleteActivity: (id: string) => void;
 }
 
 export const AuditTable: React.FC<AuditTableProps> = ({
   activities,
   searchQuery,
+  setSearchQuery,
   onDeleteActivity,
 }) => {
   const [filterType, setFilterType] = useState<string>('ALL');
@@ -44,29 +46,43 @@ export const AuditTable: React.FC<AuditTableProps> = ({
           </span>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex items-center space-x-1 text-[11px] font-bold flex-wrap gap-y-1">
-          {[
-            { id: 'ALL', label: 'All' },
-            { id: 'flight', label: 'Flights' },
-            { id: 'car', label: 'Car' },
-            { id: 'bus', label: 'Bus' },
-            { id: 'electricity', label: 'Elec' },
-            { id: 'veg_meal', label: 'Veg' },
-            { id: 'non_veg_meal', label: 'Non-Veg' },
-          ].map((f) => (
-            <button
-              key={f.id}
-              onClick={() => setFilterType(f.id)}
-              className={`px-2.5 py-1 rounded-full transition cursor-pointer ${
-                filterType === f.id
-                  ? 'bg-[#132B20] text-white'
-                  : 'bg-[#EAE6DA] text-[#132B20]/75 hover:bg-[#DDD8CA]'
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
+        <div className="flex items-center space-x-2 flex-wrap gap-y-1">
+          {/* Table Search Input */}
+          <div className="flex items-center space-x-1.5 bg-white/80 border border-[#132B20]/15 px-2.5 py-1 rounded-full text-xs text-[#132B20]">
+            <Search className="w-3 h-3 text-[#132B20]/50" />
+            <input
+              type="text"
+              placeholder="Search audit..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-transparent text-[11px] text-[#132B20] placeholder-[#132B20]/40 focus:outline-none w-24 font-medium"
+            />
+          </div>
+
+          {/* Filter Pills */}
+          <div className="flex items-center space-x-1 text-[11px] font-bold">
+            {[
+              { id: 'ALL', label: 'All' },
+              { id: 'flight', label: 'Flights' },
+              { id: 'car', label: 'Car' },
+              { id: 'bus', label: 'Bus' },
+              { id: 'electricity', label: 'Elec' },
+              { id: 'veg_meal', label: 'Veg' },
+              { id: 'non_veg_meal', label: 'Non-Veg' },
+            ].map((f) => (
+              <button
+                key={f.id}
+                onClick={() => setFilterType(f.id)}
+                className={`px-2.5 py-1 rounded-full transition cursor-pointer ${
+                  filterType === f.id
+                    ? 'bg-[#132B20] text-white'
+                    : 'bg-[#EAE6DA] text-[#132B20]/75 hover:bg-[#DDD8CA]'
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 

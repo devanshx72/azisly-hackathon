@@ -239,8 +239,6 @@ export function App() {
     <div className="w-full h-full flex flex-col justify-between p-3 sm:p-5 lg:p-6 max-w-[1680px] mx-auto relative min-h-screen xl:min-h-0">
       {/* Top Navbar */}
       <Navbar
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
         onOpenThresholdModal={() => setShowThresholdModal(true)}
         onOpenRestoreModal={() => setShowRestoreModal(true)}
         onRefreshData={loadData}
@@ -263,12 +261,7 @@ export function App() {
       <main className="w-full flex-1 grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6 items-stretch my-auto">
         {/* LEFT COLUMN: Hero text & Telemetry Card */}
         <div className="xl:col-span-6 flex flex-col justify-between space-y-4 lg:space-y-5">
-          <HeroSection
-            onOpenThresholdModal={() => setShowThresholdModal(true)}
-            auditCount={activities.length}
-            isOverTarget={currentWeek.is_over_target}
-            overageKg={currentWeek.overage_kg}
-          />
+          <HeroSection />
 
           <TelemetryCard
             weeklyTotalCo2={currentWeek.week_co2_kg || totalCo2}
@@ -292,6 +285,7 @@ export function App() {
           <AuditTable
             activities={activities}
             searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
             onDeleteActivity={handleDeleteActivity}
           />
         </div>
