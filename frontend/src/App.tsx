@@ -21,8 +21,9 @@ import { EMISSION_FACTORS } from './types';
 import { Navbar } from './components/Navbar';
 import { IdentityBanner } from './components/IdentityBanner';
 import { HeroSection } from './components/HeroSection';
-import { TelemetryCard } from './components/TelemetryCard';
+import { ActivityCard } from './components/ActivityCard';
 import { TargetCard } from './components/TargetCard';
+
 import { AuditTable } from './components/AuditTable';
 import { ThresholdModal } from './components/ThresholdModal';
 import { OutlierConfirmModal } from './components/OutlierConfirmModal';
@@ -89,10 +90,11 @@ export function App() {
     const restoredKey = restorePersistentIdentity(uuidKey);
     setToast({
       message: 'Session Restored',
-      subtext: `Loaded telemetry profile for key: ${restoredKey.substring(0, 8)}...`,
+      subtext: `Loaded profile for key: ${restoredKey.substring(0, 8)}...`,
     });
     await loadData();
   };
+
 
   // Logout session handler
   const handleLogoutSession = async () => {
@@ -131,8 +133,9 @@ export function App() {
         const noteStr = note ? ` (${note})` : '';
         setToast({
           message: `+${res.data.co2_kg.toFixed(1)} kg CO₂ logged`,
-          subtext: `${label}${noteStr} added to telemetry.`,
+          subtext: `${label}${noteStr} added to your log.`,
         });
+
         await loadData();
       }
     } catch (err: any) {
@@ -176,8 +179,9 @@ export function App() {
       await deleteActivity(id);
       setToast({
         message: 'Entry Deleted',
-        subtext: 'Activity removed from telemetry history.',
+        subtext: 'Activity removed from your log.',
       });
+
       await loadData();
     } catch (err: any) {
       setToast({
@@ -271,11 +275,12 @@ export function App() {
 
       {/* Main Grid Viewport */}
       <main className="w-full flex-1 grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6 items-stretch my-auto">
-        {/* LEFT COLUMN: Hero text & Telemetry Card */}
+        {/* LEFT COLUMN: Hero text & Activity Card */}
         <div className="xl:col-span-6 flex flex-col justify-between space-y-4 lg:space-y-5">
           <HeroSection />
 
-          <TelemetryCard
+          <ActivityCard
+
             weeklyTotalCo2={currentWeek.week_co2_kg || totalCo2}
             targetKg={currentWeek.target_kg || 30.0}
             overageKg={currentWeek.overage_kg}

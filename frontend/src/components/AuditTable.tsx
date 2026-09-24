@@ -32,15 +32,16 @@ export const AuditTable: React.FC<AuditTableProps> = ({
 
   return (
     <div
-      id="telemetry-audit"
+      id="activity-audit"
       className="bg-[#F5F2EB] rounded-[32px] p-5 sm:p-6 agrone-card-shadow border border-white/80 flex flex-col justify-between space-y-3"
     >
       {/* Header & Filter Tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#132B20]/10">
         <div className="flex items-center space-x-2">
           <h3 className="text-base font-extrabold text-[#132B20] tracking-tight">
-            Telemetry Log &amp; Audit
+            Activity Log &amp; Audit
           </h3>
+
           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E3EDE5] text-[#132B20] border border-[#C8D9CB]">
             {filteredActivities.length} logs
           </span>
@@ -102,10 +103,11 @@ export const AuditTable: React.FC<AuditTableProps> = ({
             {filteredActivities.length === 0 ? (
               <tr>
                 <td colSpan={5} className="py-6 text-center text-[#132B20]/50 italic">
-                  No telemetry entries found for this filter.
+                  No activity entries found for this filter.
                 </td>
               </tr>
             ) : (
+
               filteredActivities.map((item) => {
                 const config = EMISSION_FACTORS[item.activity_type] || {
                   rate: 0.2,
@@ -169,9 +171,10 @@ export const AuditTable: React.FC<AuditTableProps> = ({
       {/* Equivalence Footer */}
       <div className="pt-2 border-t border-[#132B20]/10 flex items-center justify-end text-[11px] text-[#132B20]/75 font-medium">
         <span className="text-[#132B20]/80 font-semibold">
-          Active telemetry cycle
+          Active tracking cycle
         </span>
       </div>
+
     </div>
   );
 };

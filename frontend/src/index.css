@@ -60,3 +60,73 @@ body {
   backdrop-filter: blur(10px);
   background-color: rgba(13, 33, 23, 0.55);
 }
+
+/* Leafy Streaming Markdown Styling */
+.leafy-markdown p {
+  margin-bottom: 0.5rem;
+}
+.leafy-markdown p:last-child {
+  margin-bottom: 0;
+}
+.leafy-markdown strong {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.leafy-markdown em {
+  color: #C8D9CB;
+  font-style: italic;
+}
+.leafy-markdown ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin: 0.4rem 0;
+}
+.leafy-markdown ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin: 0.4rem 0;
+}
+.leafy-markdown li {
+  margin: 0.2rem 0;
+}
+.leafy-markdown code {
+  background: rgba(13, 33, 23, 0.8);
+  color: #85D450;
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  border: 1px solid rgba(47, 79, 47, 0.4);
+}
+.leafy-markdown pre {
+  background: rgba(13, 33, 23, 0.9);
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+  border: 1px solid rgba(47, 79, 47, 0.5);
+}
+.leafy-markdown pre code {
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+.leafy-markdown blockquote {
+  border-left: 3px solid #74C043;
+  padding-left: 0.6rem;
+  margin: 0.5rem 0;
+  color: #C8D9CB;
+}
+.leafy-markdown h3,
+.leafy-markdown h4,
+.leafy-markdown h5 {
+  color: #FFFFFF;
+  font-weight: 700;
+  margin: 0.5rem 0 0.25rem;
+}
+.leafy-markdown hr {
+  border: 0;
+  border-top: 1px solid rgba(47, 79, 47, 0.5);
+  margin: 0.6rem 0;
+}
+

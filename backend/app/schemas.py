@@ -138,7 +138,8 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: List[ChatMessage] = Field(..., min_length=1, description="List of chat messages in conversation history")
-    include_progress: bool = Field(default=True, description="Whether to include user's live weekly telemetry in Leafy's context")
+    include_progress: bool = Field(default=True, description="Whether to include user's live weekly carbon progress in Leafy's context")
+
 
 
 class ChatResponse(BaseModel):

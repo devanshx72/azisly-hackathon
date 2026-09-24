@@ -138,3 +138,63 @@ export const sendChatMessage = async (
   return res.data;
 };
 
+export const streamChatMessage = async (
+  payload: ChatRequest,
+  onToken: (token: string) => void,
+  signal?: AbortSignal
+): Promise<void> => {
+  const envUrl = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
+  const cleanUrl = envUrl ? envUrl.replace(/\/+$/, '') : '';
+  const apiBase = cleanUrl ? (cleanUrl.endsWith('/api') ? cleanUrl : `${cleanUrl}/api`) : '/api';
+  const url = `${apiBase}/chat/stream`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Device-Id': getDeviceId(),
+    },
+    body: JSON.stringify(payload),
+    signal,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Chat stream failed with status ${response.status}`);
+  }
+
+  const reader = response.body?.getReader();
+  if (!reader) {
+    throw new Error('ReadableStream not supported by browser');
+  }
+
+  const decoder = new TextDecoder();
+  let buffer = '';
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split('\n');
+    buffer = lines.pop() ?? '';
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      if (!trimmed || !trimmed.startsWith('data: ')) continue;
+      const dataStr = trimmed.slice(6).trim();
+      if (dataStr === '[DONE]') {
+        return;
+      }
+      try {
+        const parsed = JSON.parse(dataStr);
+        if (parsed.content) {
+          onToken(parsed.content);
+        }
+      } catch {
+        // partial chunk or keep going
+      }
+    }
+  }
+};
+
+

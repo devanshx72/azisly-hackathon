@@ -3,7 +3,7 @@ import { Gauge, Scale, Plus } from 'lucide-react';
 import type { CategoryBreakdownItem } from '../types';
 import { EMISSION_FACTORS } from '../types';
 
-interface TelemetryCardProps {
+interface ActivityCardProps {
   weeklyTotalCo2: number;
   targetKg: number | null;
   overageKg: number;
@@ -27,7 +27,8 @@ const CATEGORY_COLORS: Record<string, string> = {
   non_veg_meal: '#B83220',
 };
 
-export const TelemetryCard: React.FC<TelemetryCardProps> = ({
+export const ActivityCard: React.FC<ActivityCardProps> = ({
+
   weeklyTotalCo2,
   targetKg,
   overageKg,
@@ -78,7 +79,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
 
   return (
     <div
-      id="telemetry-card"
+      id="activity-card"
       className="bg-[#F5F2EB] rounded-[32px] p-5 sm:p-6 agrone-card-shadow border border-white/80 relative flex flex-col justify-between space-y-4"
     >
       {/* Corner Action Circle  */}
@@ -92,13 +93,14 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
         </div>
       </div>
 
-      {/* Telemetry Header */}
+      {/* Activity Header */}
       <div className="flex items-center space-x-2 text-xs font-bold tracking-wider uppercase text-[#132B20]/70">
         <div className="w-6 h-6 rounded-full bg-[#E3EDE5] flex items-center justify-center text-[#132B20]">
           <Gauge className="w-3.5 h-3.5" />
         </div>
-        <span>Weekly Telemetry &amp; Quick Logger</span>
+        <span>Weekly Activity &amp; Quick Logger</span>
       </div>
+
 
       {/* Big Metric with Status Badge */}
       <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">

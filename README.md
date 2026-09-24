@@ -27,10 +27,10 @@ PlanetPulse turns daily choices (transport, energy, meals) into an intuitive, ac
 | **2** | **CO₂ Calculation** | `POST /api/activities` | Single-source-of-truth calculations with fixed factors: car (0.20 kg/km), bus (0.08 kg/km), flight (0.25 kg/km), electricity (0.80 kg/kWh), veg meal (0.50 kg), non-veg meal (2.00 kg). |
 | **3** | **Dashboard** | `GET /api/dashboard` | Overall emissions, category breakdown (totals, units, percentages), and mid-week pacing. |
 | **4** | **Weekly Target & Nudge** | `GET /api/target`<br>`PUT /api/target`<br>`POST /api/target/rollover` | Set a weekly CO₂ budget, monitor progress %, receive constructive overage alerts, and manage carbon debt rollover. |
-| **5** | **History & Filter** | `GET /api/activities` | Full audit log filterable by `type`, `from_date`, `to_date`, and outlier flag status. |
-| **6** | **Leafy AI Chatbot** | `POST /api/chat` | AI climate companion powered by LangChain & Mistral AI with live weekly carbon telemetry sync. |
+| **6** | **Leafy AI Chatbot** | `POST /api/chat` | AI climate companion powered by LangChain & Mistral AI with live weekly carbon progress sync. |
 
 ---
+
 
 
 ## ⚖️ Hackathon Decision Points

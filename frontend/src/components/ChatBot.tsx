@@ -10,8 +10,16 @@ import {
 } from 'lucide-react';
 
 
-import { sendChatMessage } from '../api/client';
+import { marked } from 'marked';
+import { streamChatMessage } from '../api/client';
 import type { ChatMessage, CurrentWeekSummary } from '../types';
+
+// Configure marked for smooth inline breaks and GFM tables/lists
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+});
+
 
 interface ChatBotProps {
   currentWeek?: CurrentWeekSummary | null;
@@ -69,6 +77,7 @@ export const ChatBot: React.FC<ChatBotProps> = ({ currentWeek }) => {
     if (!query || isLoading) return;
 
     const userMessage: ChatMessage = {
+      id: crypto.randomUUID(),
       role: 'user',
       content: query,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -79,37 +88,56 @@ export const ChatBot: React.FC<ChatBotProps> = ({ currentWeek }) => {
     setInput('');
     setIsLoading(true);
 
+    const botMessageId = crypto.randomUUID();
+    const botPlaceholder: ChatMessage = {
+      id: botMessageId,
+      role: 'assistant',
+      content: '',
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    setMessages((prev) => [...prev, botPlaceholder]);
+
     try {
-      // Send message history to backend
       const payloadMessages = newMessages.map((m) => ({
         role: m.role,
         content: m.content,
       }));
 
-      const res = await sendChatMessage({
-        messages: payloadMessages,
-        include_progress: true,
-      });
+      let accumulatedContent = '';
 
-      const botMessage: ChatMessage = {
-        role: 'assistant',
-        content: res.reply,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
+      await streamChatMessage(
+        {
+          messages: payloadMessages,
+          include_progress: true,
+        },
+        (token) => {
+          accumulatedContent += token;
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === botMessageId ? { ...m, content: accumulatedContent } : m
+            )
+          );
+        }
+      );
 
-      setMessages((prev) => [...prev, botMessage]);
       if (!isOpen) {
         setHasUnread(true);
       }
     } catch (err: any) {
-      console.error('Chat error:', err);
-      const errorMessage: ChatMessage = {
-        role: 'assistant',
-        content:
-          '🌿 **Sorry!** I could not connect to the backend server. Please verify the FastAPI backend is running and that `MISTRAL_API_KEY` is configured in `backend/.env`.',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      console.error('Chat stream error:', err);
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === botMessageId
+            ? {
+                ...m,
+                content:
+                  m.content ||
+                  '**Sorry!** I could not connect to the backend server. Please verify the FastAPI backend is running and that `MISTRAL_API_KEY` is configured in `backend/.env`.',
+              }
+            : m
+        )
+      );
     } finally {
       setIsLoading(false);
     }
@@ -129,62 +157,18 @@ export const ChatBot: React.FC<ChatBotProps> = ({ currentWeek }) => {
     }
   };
 
-  // Helper to render markdown-like content with bold, lists, and code blocks
+  // Render markdown with marked library
   const renderMessageContent = (text: string) => {
-    const lines = text.split('\n');
+    if (!text.trim()) return null;
+    const parsedHtml = marked.parse(text) as string;
     return (
-      <div className="space-y-1.5 text-sm leading-relaxed">
-        {lines.map((line, idx) => {
-          // Empty line
-          if (!line.trim()) {
-            return <div key={idx} className="h-1" />;
-          }
-
-          // Bullet points
-          if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
-            const bulletText = line.trim().substring(2);
-            return (
-              <div key={idx} className="flex items-start gap-2 pl-1">
-                <span className="text-[#74C043] font-bold mt-1 text-xs">•</span>
-                <span dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(bulletText) }} />
-              </div>
-            );
-          }
-
-          // Numbered lists
-          const numMatch = line.trim().match(/^(\d+)\.\s+(.*)/);
-          if (numMatch) {
-            return (
-              <div key={idx} className="flex items-start gap-2 pl-1">
-                <span className="text-[#74C043] font-mono text-xs mt-0.5">{numMatch[1]}.</span>
-                <span dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(numMatch[2]) }} />
-              </div>
-            );
-          }
-
-          // Code block markers
-          if (line.trim().startsWith('```')) {
-            return null; // simple skip of code fence lines
-          }
-
-          // Regular paragraph
-          return (
-            <p
-              key={idx}
-              dangerouslySetInnerHTML={{ __html: formatInlineMarkdown(line) }}
-            />
-          );
-        })}
-      </div>
+      <div
+        className="leafy-markdown"
+        dangerouslySetInnerHTML={{ __html: parsedHtml }}
+      />
     );
   };
 
-  // Inline formatting for **bold** and `code`
-  const formatInlineMarkdown = (str: string) => {
-    return str
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
-      .replace(/`([^`]+)`/g, '<code class="bg-[#0D2117]/80 text-[#85D450] px-1.5 py-0.5 rounded text-xs font-mono border border-[#2F4F2F]/40">$1</code>');
-  };
 
   return (
     <>
@@ -205,14 +189,12 @@ export const ChatBot: React.FC<ChatBotProps> = ({ currentWeek }) => {
               <span className="absolute -top-1 -right-1 w-3 h-3 bg-[#B83220] rounded-full ring-2 ring-[#0D2117]" />
             )}
           </div>
-          <div className="text-left">
-            <div className="text-xs font-semibold text-white flex items-center gap-1.5">
-              <span>Leafy</span>
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#74C043] animate-ping" />
-            </div>
-            <div className="text-[10px] text-[#C8D9CB]/80">Climate AI Guide</div>
+          <div className="text-xs font-semibold text-white flex items-center gap-1.5 pr-1">
+            <span>Leafy</span>
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#74C043] animate-ping" />
           </div>
         </button>
+
       )}
 
       {/* Floating Chat Modal */}
@@ -228,14 +210,15 @@ export const ChatBot: React.FC<ChatBotProps> = ({ currentWeek }) => {
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-base font-bold text-white tracking-tight">Leafy</h3>
-                  <span className="text-[10px] uppercase font-semibold tracking-wider px-2 py-0.5 rounded-full bg-[#74C043]/20 text-[#85D450] border border-[#74C043]/30">
+                  {/* <span className="text-[10px] uppercase font-semibold tracking-wider px-2 py-0.5 rounded-full bg-[#74C043]/20 text-[#85D450] border border-[#74C043]/30">
                     Mistral AI
-                  </span>
+                  </span> */}
                 </div>
                 <div className="text-xs text-[#C8D9CB]/70 flex items-center gap-1.5 mt-0.5">
                   <span className="w-2 h-2 rounded-full bg-[#74C043]" />
-                  <span>Telemetry Synced</span>
+                  <span>Data Synced</span>
                 </div>
+
               </div>
             </div>
 
@@ -335,8 +318,20 @@ export const ChatBot: React.FC<ChatBotProps> = ({ currentWeek }) => {
                     >
                       {isUser ? (
                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                      ) : !msg.content ? (
+                        <div className="flex items-center gap-1.5 py-1 text-xs text-[#C8D9CB]/80">
+                          <span className="inline-block w-2 h-2 rounded-full bg-[#74C043] animate-bounce [animation-delay:-0.3s]" />
+                          <span className="inline-block w-2 h-2 rounded-full bg-[#74C043] animate-bounce [animation-delay:-0.15s]" />
+                          <span className="inline-block w-2 h-2 rounded-full bg-[#74C043] animate-bounce" />
+                          <span className="ml-1 text-[11px] font-medium">Thinking...</span>
+                        </div>
                       ) : (
-                        renderMessageContent(msg.content)
+                        <div className="relative">
+                          {renderMessageContent(msg.content)}
+                          {isLoading && index === messages.length - 1 && (
+                            <span className="inline-block w-1.5 h-3.5 bg-[#74C043] ml-1 animate-pulse align-middle" />
+                          )}
+                        </div>
                       )}
                       {msg.timestamp && (
                         <div
@@ -353,22 +348,6 @@ export const ChatBot: React.FC<ChatBotProps> = ({ currentWeek }) => {
               })
             )}
 
-            {/* Loading / Thinking Indicator */}
-            {isLoading && (
-              <div className="flex items-start gap-2.5 justify-start">
-                <div className="w-7 h-7 rounded-xl bg-[#132B20] border border-[#74C043]/40 flex items-center justify-center text-[#74C043] shrink-0 mt-0.5">
-                  <Leaf className="w-3.5 h-3.5 animate-spin" />
-                </div>
-                <div className="bg-[#132B20]/90 border border-[#2F4F2F]/60 rounded-2xl rounded-tl-sm px-4 py-3 shadow-lg">
-                  <div className="flex items-center gap-1.5 text-xs text-[#C8D9CB]/80">
-                    <span className="inline-block w-2 h-2 rounded-full bg-[#74C043] animate-bounce [animation-delay:-0.3s]" />
-                    <span className="inline-block w-2 h-2 rounded-full bg-[#74C043] animate-bounce [animation-delay:-0.15s]" />
-                    <span className="inline-block w-2 h-2 rounded-full bg-[#74C043] animate-bounce" />
-                    <span className="ml-2 font-medium">Leafy is thinking...</span>
-                  </div>
-                </div>
-              </div>
-            )}
 
             <div ref={messagesEndRef} />
           </div>
@@ -396,8 +375,9 @@ export const ChatBot: React.FC<ChatBotProps> = ({ currentWeek }) => {
               </button>
             </div>
             <div className="text-[10px] text-center text-[#C8D9CB]/40 mt-2">
-              Leafy uses Mistral AI & live weekly telemetry. Check reduction tips for accurate carbon guidance.
+              Leafy uses AI &amp; live weekly carbon data. Check reduction tips for accurate carbon guidance.
             </div>
+
           </div>
 
         </div>
