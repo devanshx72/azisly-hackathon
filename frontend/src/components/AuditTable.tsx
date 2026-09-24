@@ -95,14 +95,13 @@ export const AuditTable: React.FC<AuditTableProps> = ({
               <th className="py-1.5 px-2">Volume</th>
               <th className="py-1.5 px-2">Factor</th>
               <th className="py-1.5 px-2">Output</th>
-              <th className="py-1.5 px-2">Status</th>
               <th className="py-1.5 px-2 text-right">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#132B20]/10">
             {filteredActivities.length === 0 ? (
               <tr>
-                <td colSpan={6} className="py-6 text-center text-[#132B20]/50 italic">
+                <td colSpan={5} className="py-6 text-center text-[#132B20]/50 italic">
                   No telemetry entries found for this filter.
                 </td>
               </tr>
@@ -149,17 +148,6 @@ export const AuditTable: React.FC<AuditTableProps> = ({
                     <td className="py-2 px-2 font-extrabold text-[#132B20]">
                       {item.co2_kg.toFixed(2)}{' '}
                       <span className="text-[#2F4F2F] font-bold text-[10px]">kg</span>
-                    </td>
-                    <td className="py-2 px-2">
-                      {isFlagged ? (
-                        <span className="px-2 py-0.5 rounded-full bg-[#EAE4D5] text-[#8C6824] border border-[#DDD5C0] text-[9px] font-bold uppercase tracking-wide">
-                          Outlier (Excluded)
-                        </span>
-                      ) : (
-                        <span className="px-2 py-0.5 rounded-full bg-[#74C043]/20 text-[#132B20] border border-[#74C043]/30 text-[9px] font-bold">
-                          Current
-                        </span>
-                      )}
                     </td>
                     <td className="py-2 px-2 text-right">
                       <button

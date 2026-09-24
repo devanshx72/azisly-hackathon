@@ -291,27 +291,7 @@ export function App() {
         </div>
       </main>
 
-      {/* Bottom Footer */}
-      <footer className="w-full mt-3 lg:mt-4">
-        <div className="bg-[#F5F2EB]/95 backdrop-blur-md rounded-full px-5 py-2.5 flex flex-col sm:flex-row items-center justify-between text-xs font-semibold text-[#132B20] border border-white/80 shadow-md gap-2">
-          <div className="flex items-center space-x-2">
-            <span className="font-extrabold">PlanetPulse</span>
-            <span className="text-[#132B20]/40">—</span>
-            <span className="text-[#132B20]/80">Part of Future Climate Action</span>
-          </div>
-          <div className="flex items-center space-x-3 text-[11px] text-[#132B20]/70 font-semibold">
-            <span>Identity: {identityMode}</span>
-            <span>•</span>
-            <span>IPCC Tier 1 Telemetry</span>
-            <span>•</span>
-            <span className="text-[#132B20] font-bold">
-              {currentWeek.is_over_target
-                ? `Weekly Balance (+${currentWeek.overage_kg.toFixed(1)} kg)`
-                : 'Budget Pacing Active'}
-            </span>
-          </div>
-        </div>
-      </footer>
+
 
       {/* Modals */}
       <ThresholdModal
