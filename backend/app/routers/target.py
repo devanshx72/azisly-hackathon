@@ -79,10 +79,7 @@ def get_target(
     """
     record = target_repo.get_target(db=db, device_id=device_id)
     if not record:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="No weekly target configured for this device ID. Set one via PUT /api/target.",
-        )
+        record = target_repo.upsert_target(db=db, device_id=device_id, target_kg=30.0)
 
     week_start, week_end = get_current_iso_week_bounds()
     week_totals = activity_repo.get_week_co2_totals(

@@ -60,11 +60,16 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
       return;
     }
 
+    const todayStr = new Date().toISOString().split('T')[0];
+    const loggedAt = !activityDate || activityDate === todayStr
+      ? undefined
+      : new Date(`${activityDate}T12:00:00Z`).toISOString();
+
     onLogActivity(
       activityType,
       val,
       activityNote.trim() || undefined,
-      activityDate ? new Date(activityDate).toISOString() : undefined
+      loggedAt
     );
 
     setQuantityInput('');

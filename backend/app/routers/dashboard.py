@@ -55,9 +55,9 @@ def get_dashboard(
         week_end=week_end,
     )
 
-    # 3. Retrieve weekly target if set
+    # 3. Retrieve weekly target (default to 30.0 kg baseline so budget progress always tracks)
     target_record = target_repo.get_target(db=db, device_id=device_id)
-    target_kg = target_record.target_kg if target_record else None
+    target_kg = target_record.target_kg if target_record else 30.0
     rollover_debt_kg = target_record.rollover_debt_kg if target_record else 0.0
 
     # 4. Pacing calculation (DP3) using unflagged emissions (DP2)
