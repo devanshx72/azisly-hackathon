@@ -81,7 +81,7 @@ export const TelemetryCard: React.FC<TelemetryCardProps> = ({
       id="telemetry-card"
       className="bg-[#F5F2EB] rounded-[32px] p-5 sm:p-6 agrone-card-shadow border border-white/80 relative flex flex-col justify-between space-y-4"
     >
-      {/* Corner Action Circle */}
+      {/* Corner Action Circle  */}
       <div className="absolute top-4 right-4 sm:top-5 sm:right-5">
         <div
           onClick={onOpenThresholdModal}
