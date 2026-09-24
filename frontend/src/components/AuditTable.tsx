@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Trash2, ShieldCheck, Search } from 'lucide-react';
+import { Trash2, Search } from 'lucide-react';
 import type { Activity } from '../types';
 import { EMISSION_FACTORS } from '../types';
 import { ActivityIcon } from './ActivityIcon';
@@ -167,11 +167,7 @@ export const AuditTable: React.FC<AuditTableProps> = ({
       </div>
 
       {/* Equivalence Footer */}
-      <div className="pt-2 border-t border-[#132B20]/10 flex items-center justify-between text-[11px] text-[#132B20]/75 font-medium">
-        <div className="flex items-center space-x-1.5">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#2F4F2F]" />
-          <span>IPCC Tier 1 Telemetry: Rolling Weekly Audit Trail</span>
-        </div>
+      <div className="pt-2 border-t border-[#132B20]/10 flex items-center justify-end text-[11px] text-[#132B20]/75 font-medium">
         <span className="text-[#132B20]/80 font-semibold">
           Active telemetry cycle
         </span>
