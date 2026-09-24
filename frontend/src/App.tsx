@@ -31,9 +31,15 @@ import { TargetAdjustModal } from './components/TargetAdjustModal';
 import { RestoreSessionModal } from './components/RestoreSessionModal';
 import { Toast } from './components/Toast';
 import { ChatBot } from './components/ChatBot';
+import { Loader } from './components/Loader';
 
 
 export function App() {
+  const [initialLoading, setInitialLoading] = useState<boolean>(true);
+  const handleLoaderComplete = useCallback(() => {
+    setInitialLoading(false);
+  }, []);
+
   const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
   const [activities, setActivities] = useState<Activity[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -251,7 +257,22 @@ export function App() {
   const totalCo2 = dashboard ? dashboard.total_co2_kg : 0;
 
   return (
-    <div className="w-full h-full flex flex-col justify-between p-3 sm:p-5 lg:p-6 max-w-[1680px] mx-auto relative min-h-screen xl:min-h-0">
+    <>
+      {initialLoading && (
+        <Loader durationMs={6000} onComplete={handleLoaderComplete} />
+      )}
+
+      {/* High Quality Aerial Agricultural Backdrop */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <img
+          src="/crop_fields.jpg"
+          alt="Aerial agricultural crop fields"
+          className="w-full h-full object-cover object-center filter brightness-[0.92] saturate-[1.12]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0D2117]/35 via-transparent to-[#0D2117]/60" />
+      </div>
+
+      <div className="w-full h-full flex flex-col justify-between p-3 sm:p-5 lg:p-6 max-w-[1680px] mx-auto relative z-10 min-h-screen xl:min-h-0">
       {/* Top Navbar */}
       <Navbar
         onOpenThresholdModal={() => setShowThresholdModal(true)}
@@ -342,6 +363,7 @@ export function App() {
 
       <ChatBot currentWeek={currentWeek} />
     </div>
+    </>
   );
 }
 
