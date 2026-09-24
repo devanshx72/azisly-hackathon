@@ -267,24 +267,12 @@ export function App() {
       {/* Toast Banner */}
       <Toast toast={toast} onClose={() => setToast(null)} />
 
-      {/* Main 2x2 Grid Viewport */}
-      <main className="w-full flex-1 grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 items-start my-auto">
-        {/* Top Left: Hero text */}
-        <div className="flex flex-col justify-between">
+      {/* Main Grid Viewport */}
+      <main className="w-full flex-1 grid grid-cols-1 xl:grid-cols-12 gap-4 lg:gap-6 items-stretch my-auto">
+        {/* LEFT COLUMN: Hero text & Telemetry Card */}
+        <div className="xl:col-span-6 flex flex-col justify-between space-y-4 lg:space-y-5">
           <HeroSection />
-        </div>
 
-        {/* Top Right: Target Card (Weekly Budget & Target) */}
-        <div className="flex flex-col">
-          <TargetCard
-            currentWeek={currentWeek}
-            onOpenThresholdModal={() => setShowThresholdModal(true)}
-            onOpenTargetAdjustModal={() => setShowTargetAdjustModal(true)}
-          />
-        </div>
-
-        {/* Bottom Left: Telemetry Card (Weekly Telemetry & Quick Logger) */}
-        <div className="flex flex-col">
           <TelemetryCard
             weeklyTotalCo2={currentWeek.week_co2_kg || totalCo2}
             targetKg={currentWeek.target_kg || 30.0}
@@ -296,8 +284,14 @@ export function App() {
           />
         </div>
 
-        {/* Bottom Right: Audit Table (Telemetry Log & Audit) */}
-        <div className="flex flex-col">
+        {/* RIGHT COLUMN: Target Card & Audit Table */}
+        <div className="xl:col-span-6 flex flex-col justify-between space-y-4 lg:space-y-5">
+          <TargetCard
+            currentWeek={currentWeek}
+            onOpenThresholdModal={() => setShowThresholdModal(true)}
+            onOpenTargetAdjustModal={() => setShowTargetAdjustModal(true)}
+          />
+
           <AuditTable
             activities={activities}
             searchQuery={searchQuery}

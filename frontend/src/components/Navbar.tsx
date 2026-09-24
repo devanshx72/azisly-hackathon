@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex flex-wrap items-center space-x-2 sm:space-x-3 gap-y-2">
           {/* Full Untruncated UUID Identity Pill */}
           <div className="flex items-center space-x-2 bg-white/90 border border-[#132B20]/20 px-3.5 py-1.5 rounded-xl sm:rounded-full text-xs font-bold text-[#132B20] shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-[#74C043] animate-pulse"></span>
+            <span className="w-2 h-2 rounded-full bg-[#74C043]"></span>
             <span className="font-extrabold uppercase text-[10px] text-[#132B20]/60 tracking-wider">
               Device ID:
             </span>
@@ -94,7 +94,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Restore Session Button */}
           <button
             onClick={onOpenRestoreModal}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-white/80 hover:bg-white border border-[#132B20]/15 text-[#132B20] transition cursor-pointer shadow-xs"
+            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-white/90 hover:bg-white border border-[#132B20]/20 text-[#132B20] hover:scale-[1.02] active:scale-95 transition-all duration-200 cursor-pointer shadow-xs"
             title="Restore or paste an existing UUID key"
           >
             <KeyRound className="w-3.5 h-3.5 text-[#132B20]" />
@@ -104,10 +104,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Logout Button */}
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-red-50 hover:bg-red-100 border border-red-200/80 text-red-700 transition cursor-pointer shadow-xs"
+            className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold bg-gradient-to-r from-rose-500/10 to-red-500/15 hover:from-rose-500/20 hover:to-red-500/25 border border-rose-500/30 text-rose-800 shadow-xs hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all duration-200 cursor-pointer"
             title="Log out of current session"
           >
-            <LogOut className="w-3.5 h-3.5 text-red-600" />
+            <LogOut className="w-3.5 h-3.5 text-rose-600 stroke-[2.2]" />
             <span>Logout</span>
           </button>
 
@@ -115,7 +115,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {isOverTarget ? (
             <button
               onClick={onOpenThresholdModal}
-              className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold transition border shadow-xs bg-[#EFE9DC] hover:bg-[#E6DEC9] text-[#132B20] border-[#D9D1BF] cursor-pointer"
+              className="flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-extrabold transition-all duration-200 border shadow-md bg-[#EFE9DC] hover:bg-[#E6DEC9] text-[#132B20] border-[#D9D1BF] hover:scale-[1.02] active:scale-95 cursor-pointer"
               title="Click to review threshold rebalancing"
             >
               <span className="w-2 h-2 rounded-full bg-[#8C6824]"></span>
@@ -126,10 +126,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           ) : (
             <button
               onClick={onOpenThresholdModal}
-              className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold transition border shadow-xs bg-[#E3EDE5] hover:bg-[#D5E4D8] text-[#132B20] border-[#C8D9CB] cursor-pointer"
+              className="flex items-center space-x-2 px-4 py-1.5 rounded-full text-xs font-extrabold transition-all duration-200 border shadow-md bg-gradient-to-r from-[#132B20] to-[#1C3B2E] hover:from-[#1A382A] hover:to-[#254A3B] text-white border-[#74C043]/40 hover:scale-[1.02] active:scale-95 cursor-pointer"
             >
-              <span className="w-2 h-2 rounded-full bg-[#74C043]"></span>
-              <span className="font-bold tracking-tight text-[#132B20]">
+              <span className="w-2 h-2 rounded-full bg-[#85D450] shadow-[0_0_8px_#85D450]"></span>
+              <span className="font-extrabold tracking-tight text-white drop-shadow-xs">
                 Budget Active
               </span>
             </button>
